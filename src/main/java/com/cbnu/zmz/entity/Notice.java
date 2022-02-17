@@ -4,6 +4,7 @@ import lombok.*;
 import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,11 +23,13 @@ public class Notice {
     @JoinColumn(name = "user_id")
     User user;
     @Column(length = 1, nullable = false)
-    Boolean notice_status;
+    Integer notice_status;
+    @Column(length = 100, nullable = true)
+    String notice_content;
+    @Builder.Default
     @ElementCollection(fetch = FetchType.LAZY)
-    private Set<Notice_Kinds> notice_kinds_id;
-
-    public void addNoticeKinds(Notice_Kinds notice_kinds){
-        notice_kinds_id.add(notice_kinds);
+    private Set<Notice_Kinds> notice_reason = new HashSet<>();
+    public void addNoticeReason(Notice_Kinds notice_kinds) {
+        notice_reason.add(notice_kinds);
     }
 }

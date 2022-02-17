@@ -33,9 +33,10 @@ public class NoticeRepositoryTests {
             Notice notice = Notice.builder()
                     .user(user)
                     .notice_id((long) i)
+                    .notice_content("this is notice " + i)
                     .notice_status(Boolean.TRUE)
                     .build();
-            notice.addNoticeKinds(Notice_Kinds.NONE);
+            notice.addNoticeReason(Notice_Kinds.NONE);
             noticeRepository.save(notice);
         }));
     }

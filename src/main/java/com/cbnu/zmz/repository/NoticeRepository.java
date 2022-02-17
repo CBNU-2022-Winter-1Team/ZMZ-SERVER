@@ -1,7 +1,15 @@
 package com.cbnu.zmz.repository;
 
+
 import com.cbnu.zmz.entity.Notice;
+import com.cbnu.zmz.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface NoticeRepository extends JpaRepository<Notice,Long>{
+    @Query("select n from Notice n where n.notice_id = :user_id")
+    List<Notice> findByUserWithNotice(@Param("user_id") User user);
 }

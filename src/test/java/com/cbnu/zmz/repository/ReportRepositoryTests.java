@@ -14,6 +14,7 @@ import org.springframework.test.annotation.Commit;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -40,10 +41,10 @@ public class ReportRepositoryTests {
         IntStream.rangeClosed(1, 100).forEach((i -> {
             Report report = Report.builder()
                     .user(user)
-                    .report_user_list("user..." + i)
                     .report_period((long) i)
+                    .regDate(LocalDateTime.now())
                     .build();
-            report.addReportReason(Report_Kinds.ETC);
+            report.addReportRole(Report_Kinds.ETC);
             reportRepository.save(report);
         }));
     }

@@ -9,7 +9,6 @@ import com.cbnu.zmz.entity.User;
 import com.cbnu.zmz.repository.FriendRepository;
 import com.cbnu.zmz.repository.FriendStatusRepository;
 import com.cbnu.zmz.repository.UserRepository;
-import com.fasterxml.jackson.databind.util.ArrayBuilders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -99,7 +98,7 @@ public class UserServiceImpl implements UserService{
 
         Optional<User> result1 = userRepository.findById(user_id);
 
-        User user = result1.get();
+        Optional<User> user = Optional.of(result1.get());
 
         List<Friend> result = friendRepository.findByUserWithFollowing(user);
 

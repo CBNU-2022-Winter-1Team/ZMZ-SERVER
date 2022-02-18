@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Chat  extends ChatEntity{
+public class Chat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,16 @@ public class Chat  extends ChatEntity{
     String chat_content;
 
     @Column(nullable = false)
-    Boolean chat_read;
+    int chat_read;
 
-//    @Column(length = 50, nullable = false)
-//    String user_id;
-//
-//    @Column(length = 50, nullable = false)
-//    String friend_id;
+    @ManyToOne
+    @JoinColumn(name="friend_id", columnDefinition = "VARCHAR(50)", nullable = false)
+    User friend_id;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", columnDefinition = "VARCHAR(50)", nullable = false)
+    User user_id;
+
+    @Column
+    LocalDateTime chat_send;
 }

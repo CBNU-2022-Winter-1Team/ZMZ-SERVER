@@ -1,6 +1,5 @@
 package com.cbnu.zmz.repository;
 
-import com.cbnu.zmz.dto.FriendDTO;
 import com.cbnu.zmz.entity.Friend;
 import com.cbnu.zmz.entity.FriendStatus;
 import com.cbnu.zmz.entity.User;
@@ -15,7 +14,7 @@ import java.util.Optional;
 
 public interface FriendRepository extends JpaRepository<Friend, String> {
     @Query("select f from Friend f where f.user_id = :user_id")
-    List<Friend> findByUserWithFollowing(@Param("user_id") User user);
+    List<Friend> findByUserWithFollowing(@Param("user_id") Optional<User> user);
 
     @Query("select f from Friend f where f.friend_id = :user_id")
     List<Friend> findByUserWithFollower(@Param("user_id") User user);

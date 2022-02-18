@@ -24,6 +24,7 @@ public class ChatController {
 
     @GetMapping("list/{user_id}")
     public  Object chatlist(@PathVariable String user_id){
+        log.info("----------------chat/list-----------------------");
 
         System.out.println("user_id : " + user_id);
         List<ChatDTO> chatDTO = chatService.getChatList(user_id);
@@ -35,5 +36,12 @@ public class ChatController {
         log.info("----------------chat/insert-----------------------");
 
         return new ResponseEntity<StatusDTO>(chatService.insert(chatDTO), HttpStatus.OK);
+    }
+
+    @GetMapping("list/{user_id}/{friend_id}")
+    public  Object getChating(@PathVariable String user_id, @PathVariable String friend_id){
+        log.info("----------------chat/with-----------------------");
+        List<ChatDTO> chatDTO = chatService.getChatting(user_id, friend_id);
+        return chatDTO;
     }
 }

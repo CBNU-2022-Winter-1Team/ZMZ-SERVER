@@ -3,6 +3,7 @@ package com.cbnu.zmz.service;
 import com.cbnu.zmz.dto.ChatDTO;
 import com.cbnu.zmz.dto.StatusDTO;
 import com.cbnu.zmz.entity.Chat;
+import com.cbnu.zmz.entity.Friend;
 import com.cbnu.zmz.entity.User;
 import com.cbnu.zmz.repository.ChatRepository;
 import com.cbnu.zmz.repository.FriendRepository;
@@ -65,5 +66,33 @@ public class ChatService {
         statusDTO.setStatus(200);
 
         return statusDTO;
+    }
+
+    public List<ChatDTO> getChatting(String user_id, String friend_id) {
+        List<ChatDTO> list = new ArrayList<>();
+
+        User user = User.builder()
+                .user_id(user_id).build();
+        User friend = User.builder()
+                .user_id(friend_id).build();
+        log.info(friend_id);
+        log.info(user);
+        log.info(friend);
+
+        List<Chat> result = chatRepository.findChatListbyID(user, friend);
+
+        System.out.println(result);
+        result.forEach(item -> {
+            ChatDTO chatListDTO =new ChatDTO();
+            chatListDTO.setUser_id(item.getUser_id().getUser_id());
+            chatListDTO.setFriend_id(item.getFriend_id().getUser_id());
+            chatListDTO.setChat_send(item.getChat_send());
+            chatListDTO.setChat_read(item.getChat_read());
+            chatListDTO.setChat_content(item.getChat_content());
+            list.add(chatListDTO);
+        });
+
+
+        return list;
     }
 }

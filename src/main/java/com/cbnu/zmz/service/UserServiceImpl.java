@@ -29,10 +29,8 @@ public class UserServiceImpl implements UserService{
 
     private final FriendStatusRepository friendStatusRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
     @Override
-    public StatusDTO register(UserDTO userDTO){
+    public StatusDTO register(UserDTO userDTO, PasswordEncoder passwordEncoder){
         StatusDTO statusDTO = new StatusDTO();
         log.info(userDTO);
 
@@ -58,12 +56,6 @@ public class UserServiceImpl implements UserService{
         return statusDTO;
     }
 
-
-//    @Override
-//    public Page<User> login(String user_id, String user_pw){
-//        Pageable pageable
-//        Page<User> result = userRepository.findAll(pageable);
-//    }
 
     @Override
     public List<UserDTO> follower(String user_id){
@@ -222,46 +214,37 @@ public class UserServiceImpl implements UserService{
 
         Optional<User> result = userRepository.findById(userDTO.getUser_id());
 
-        boolean passwordResult = passwordEncoder.matches(userDTO.getUser_pw(), result.get().getUser_pw());
 
         statusDTO.setSuccess(true);
         statusDTO.setStatus(200);
 
-        if(passwordResult){
-            User user = User.builder()
-                    .user_id(result.get().getUser_id())
-                    .user_pw(passwordEncoder.encode(userDTO.getUser_new_pw()))
-                    .user_name(result.get().getUser_name())
-                    .user_text(result.get().getUser_text())
-                    .build();
-            userRepository.save(user);
-            statusDTO.setMessage("pwOk");
-        }
-        else{
-            statusDTO.setMessage("pwFaile");
-        }
+//        boolean passwordResult = passwordEncoder.matches(userDTO.getUser_pw(), result.get().getUser_pw());
+//
+//
+//
+//        if(passwordResult){
+//            User user = User.builder()
+//                    .user_id(result.get().getUser_id())
+//                    .user_pw(passwordEncoder.encode(userDTO.getUser_new_pw()))
+//                    .user_name(result.get().getUser_name())
+//                    .user_text(result.get().getUser_text())
+//                    .build();
+//            userRepository.save(user);
+//            statusDTO.setMessage("pwOk");
+//        }
+//        else{
+//            statusDTO.setMessage("pwFaile");
+//        }
 
         return statusDTO;
     }
-//
-//    @Override
-//    public UserDTO userConfig(String user_id){
-//
-//    }
-//
-//    @Override
-//    public StatusDTO modifyProfile(UserDTO userDTO){
-//        StatusDTO statusDTO = new StatusDTO();
-//
-//
-//        return statusDTO;
-//    }
-//
-//    @Override
-//    public StatusDTO modifyPw(String user_id, String user_pw, String user_new_pw){
-//        StatusDTO statusDTO = new StatusDTO();
-//
-//
-//        return statusDTO;
-//    }
+    @Override
+    public User getByCredentials(final String email, final String password, final PasswordEncoder encoder){
+        final Optional<User> originalUser = userRepository.findById(email);
+
+        if(originalUser.get() != null && encoder.matches(password, originalUser.get().getUser_pw())){
+            return originalUser.get();
+        }
+        return null;
+    }
 }

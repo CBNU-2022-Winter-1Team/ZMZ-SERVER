@@ -1,16 +1,20 @@
 package com.cbnu.zmz.controller;
 
-import com.cbnu.zmz.config.security.dto.ClubAuthMemberDTO;
 import com.cbnu.zmz.dto.FriendDTO;
 import com.cbnu.zmz.dto.StatusDTO;
 import com.cbnu.zmz.dto.UserDTO;
+import com.cbnu.zmz.entity.User;
+import com.cbnu.zmz.security.TokenProvider;
 import com.cbnu.zmz.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +25,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;  //@RequiredArgsConstructor
+    @Autowired
+    private UserService userService;  //@RequiredArgsConstructor
+
+    @Autowired
+    private TokenProvider tokenProvider;
+
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/join")
     public ResponseEntity<StatusDTO> register(@RequestBody UserDTO userDTO){
@@ -29,7 +39,39 @@ public class UserController {
         log.info("----------------join-------------------------------");
 
 
-        return new ResponseEntity<>(userService.register(userDTO), HttpStatus.OK);
+        return new ResponseEntity<>(userService.register(userDTO, passwordEncoder), HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO){
+        log.info("=========login============");
+
+        User user = userService.getByCredentials(
+                userDTO.getUser_id(),
+                userDTO.getUser_pw(),
+                passwordEncoder
+        );
+        StatusDTO statusDTO =StatusDTO.builder()
+                .message("Login failed.")
+                .build();
+
+        log.info(user);
+        if(user != null){
+            final String token = tokenProvider.create(user);
+
+            final UserDTO responseUserDTO = UserDTO.builder()
+                    .user_id(user.getUser_id())
+                    .token(token)
+                    .user_name(user.getUser_name())
+                    .build();
+            return ResponseEntity.ok().body(responseUserDTO);
+        } else {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(statusDTO);
+        }
+
     }
 
     @GetMapping("/follower")
@@ -86,43 +128,6 @@ public class UserController {
 
         return new ResponseEntity<>(userService.modifyPw(userDTO), HttpStatus.OK);
     }
-//    @PreAuthorize("permitAll()")
-//    @GetMapping("/all")
-//    public void exAll(){
-//        log.info("exAll..........");
-//    }
 
-//    @GetMapping("/member")
-//    public void exMember(){
-//        log.info("exMember..........");
-//    }
-
-//    @PreAuthorize("hasRole('ROLL_ADMIN')")
-//    @GetMapping("/admin")
-//    public void exAdmin(){
-//        log.info("exAdmin..........");
-//    }
-//
-//    @PreAuthorize("isAuthenticated()")
-//    @GetMapping("/member")
-//    public String exMember(@AuthenticationPrincipal ClubAuthMemberDTO clubAuthMember){
-//
-//        log.info("exMember..........");
-//
-//        log.info("-------------------------------");
-//        log.info(clubAuthMember.getName());
-//
-//        return clubAuthMember.getName();
-//    }
-//
-//    @PreAuthorize("#clubAuthMember != null && #clubAuthMember.username eq \"test...95\"")
-//    @GetMapping("/exOnly")
-//    public String exMemberOnly(@AuthenticationPrincipal ClubAuthMemberDTO clubAuthMember){
-//
-//        log.info("exMemberOnly.............");
-//        log.info(clubAuthMember);
-//
-//        return "/sample/admin";
-//    }
 
 }

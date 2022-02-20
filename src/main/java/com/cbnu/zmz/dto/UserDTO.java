@@ -16,6 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserDTO {
 
+    private String token;
+
     private String user_id;
 
     private String user_addr;

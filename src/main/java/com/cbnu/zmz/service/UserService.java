@@ -6,12 +6,13 @@ import com.cbnu.zmz.dto.UserDTO;
 import com.cbnu.zmz.entity.User;
 import com.cbnu.zmz.entity.UserAuthority;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 public interface UserService {
-    StatusDTO register(UserDTO userDTO);
+    StatusDTO register(UserDTO userDTO, PasswordEncoder passwordEncoder);
 
 //    Page<User> login(String user_id, String user_pw);
 
@@ -29,6 +30,7 @@ public interface UserService {
 
     StatusDTO modifyPw(UserDTO userDTO);
 
+    User getByCredentials(final String email, final String password, final PasswordEncoder encoder);
 
     default User dtoToEntity(UserDTO userDTO){
 

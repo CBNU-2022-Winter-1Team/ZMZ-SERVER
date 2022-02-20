@@ -36,7 +36,7 @@ public class ScrapRepositoryTests {
     public void testInsertDummy(){
         Optional<User> result1 = userRepository.findById("test...1");
         User user = result1.get();
-        Optional<Board> result2 = boardRepository.findById(1L);
+        Optional<Board> result2 = boardRepository.findById("1");
         Board board = result2.get();
         IntStream.rangeClosed(1,100).forEach((i -> {
             Scrap scrap = Scrap.builder()

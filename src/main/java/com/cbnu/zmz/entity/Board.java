@@ -1,6 +1,7 @@
 package com.cbnu.zmz.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Board {
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long post_id;
 
     @Column(length = 2000, nullable = false)
@@ -28,8 +29,9 @@ public class Board {
     @Column(nullable = false)
     Boolean is_secret;
 
-    @Column(nullable = false)
-    LocalDateTime post_time;
+    @CreatedDate
+    @Column(name = "post_time", updatable = false)
+    private LocalDateTime post_time;
 
     @Column(nullable = true)
     Long post_comment;
@@ -42,6 +44,6 @@ public class Board {
 
     @ManyToOne//게시글은 오직 하나의 사용자가 있다
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    User user;
+    User user_id;
 
 }

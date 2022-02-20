@@ -21,11 +21,20 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
+//    @GetMapping("/list")
+//    public ResponseEntity<BoardDTO> list(String user_id) {
+//        log.info("----------list----------");
+//
+//        return new ResponseEntity<>(boardService.list(user_id), HttpStatus.OK);
+//    }
+
     @GetMapping("/list")
-    public ResponseEntity<BoardDTO> list(Long user_id) {
+    public List<BoardDTO> list(String user_id) {
         log.info("----------list----------");
 
-        return new ResponseEntity<>(boardService.list(user_id), HttpStatus.OK);
+        List<BoardDTO> boardDTO = boardService.list(user_id);
+
+        return boardDTO;
     }
 
     @PostMapping("/register")
@@ -42,40 +51,40 @@ public class BoardController {
         return new ResponseEntity<>(boardService.read(post_id), HttpStatus.OK);
     }
 
-    @PostMapping("/modify")
-    public ResponseEntity<BoardDTO> modify(@RequestBody BoardDTO boardDTO) {
-        log.info("----------modify----------");
-
-        return new ResponseEntity<>(boardService.modify(boardDTO), HttpStatus.OK);
-    }
-
-    @PostMapping("/delete")
-    public ResponseEntity<StatusDTO> delete(Long post_id) {
-        log.info("----------delete----------");
-
-        return new ResponseEntity<>(boardService.delete(post_id), HttpStatus.OK);
-    }
-
-    @GetMapping("/bookList")
-    public ResponseEntity<UserDTO> bookList(Long user_id) {
-        log.info("----------bookList----------");
-
-        return new ResponseEntity<>(boardService.bookList(user_id), HttpStatus.OK);
-    }
-
-    @PostMapping("/bookAdd")
-    public ResponseEntity<StatusDTO> bookAdd(@RequestBody BoardDTO boardDTO) {
-        log.info("----------bookAdd----------");
-
-        return new ResponseEntity<>(boardService.bookAdd(boardDTO), HttpStatus.OK);
-    }
-
-    @GetMapping("/commentList")
-    public ResponseEntity<BoardDTO> commentList(Long user_id) {
-        log.info("----------commentList----------");
-
-        return new ResponseEntity<>(boardService.commentList(user_id), HttpStatus.OK);
-    }
-
+//    @PostMapping("/modify")
+//    public ResponseEntity<BoardDTO> modify(@RequestBody BoardDTO boardDTO) {
+//        log.info("----------modify----------");
+//
+//        return new ResponseEntity<>(boardService.modify(boardDTO), HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/delete")
+//    public ResponseEntity<StatusDTO> delete(Long post_id) {
+//        log.info("----------delete----------");
+//
+//        return new ResponseEntity<>(boardService.delete(post_id), HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/bookList")
+//    public ResponseEntity<UserDTO> bookList(Long user_id) {
+//        log.info("----------bookList----------");
+//
+//        return new ResponseEntity<>(boardService.bookList(user_id), HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/bookAdd")
+//    public ResponseEntity<StatusDTO> bookAdd(@RequestBody BoardDTO boardDTO) {
+//        log.info("----------bookAdd----------");
+//
+//        return new ResponseEntity<>(boardService.bookAdd(boardDTO), HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/commentList")
+//    public ResponseEntity<BoardDTO> commentList(Long user_id) {
+//        log.info("----------commentList----------");
+//
+//        return new ResponseEntity<>(boardService.commentList(user_id), HttpStatus.OK);
+//    }
+//
 
 }

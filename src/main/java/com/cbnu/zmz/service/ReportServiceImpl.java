@@ -11,6 +11,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -30,5 +33,19 @@ public class ReportServiceImpl implements ReportService{
         Report report = dtoToEntity(reportDTO);
         reportRepository.save(report);
         return statusDTO;
+    }
+
+    @Override
+    public List<ReportDTO> callReportList(){
+        List<Report> result = reportRepository.findAll();
+        List<ReportDTO> reportList = new ArrayList<>();
+        result.forEach(
+                r -> {
+                    ReportDTO reportDTO = new ReportDTO();
+                    reportDTO = entityToDTO(r);
+                    reportList.add(reportDTO);
+                }
+        );
+        return reportList;
     }
 }

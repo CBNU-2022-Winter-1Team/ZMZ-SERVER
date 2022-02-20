@@ -13,31 +13,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-//@Service
-//@Log4j2
-//@RequiredArgsConstructor
-//public class NoticeServiceImpl implements NoticeService{
-//    private final NoticeRepository noticeRepository;
-//    private final UserRepository userRepository;
-//
-//    @Override
-//    public List<NoticeDTO>callNoticeList (String user_id){
-//        Optional<User> result1 = userRepository.findById(user_id);
-//        User user = result1.get();
-//        List<Notice> result = noticeRepository.findByUserWithNotice(user);
-//
+@Service
+@Log4j2
+@RequiredArgsConstructor
+public class NoticeServiceImpl implements NoticeService{
+    private final NoticeRepository noticeRepository;
+    private final UserRepository userRepository;
+
+    @Override
+    public List<NoticeDTO>callNoticeList(String user_id){
+        Optional<User> result1 = userRepository.findById(user_id);
+        User user = result1.get();
+        List<Notice> result = noticeRepository.findByUserWithNotice(user);
+
 //        List<NoticeDTO> noticeList = new List<NoticeDTO>();
-////        List<NoticeDTO> noticeList = new ArrayList<>();
-//        result.forEach(
-//                r-> {
-//                    NoticeDTO noticeDTO = new NoticeDTO();
-//                    noticeDTO = entityToDTO(result);
-//                    noticeList.add(noticeDTO);
-//                }
-//        );
-//        return noticeList;
-//    }
-//}
+        List<NoticeDTO> noticeList = new ArrayList<>();
+        result.forEach(
+                r-> {
+                    NoticeDTO noticeDTO = new NoticeDTO();
+                    noticeDTO = entityToDTO(r);
+                    noticeList.add(noticeDTO);
+                }
+        );
+        return noticeList;
+    }
+}
 
 
 //        List<NorificationDTO> name = new List<NorificationDTO>();

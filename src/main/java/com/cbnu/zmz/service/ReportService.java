@@ -5,9 +5,12 @@ import com.cbnu.zmz.dto.StatusDTO;
 import com.cbnu.zmz.entity.Report;
 import com.cbnu.zmz.entity.User;
 
+import java.util.List;
+
 
 public interface ReportService {
     StatusDTO report_list(ReportDTO reportDTO);
+    List<ReportDTO> callReportList();
 
     default Report dtoToEntity(ReportDTO reportDTO){ //entity에 있는애들 DTO방식으로 가져오면됨
         Report report = Report.builder()

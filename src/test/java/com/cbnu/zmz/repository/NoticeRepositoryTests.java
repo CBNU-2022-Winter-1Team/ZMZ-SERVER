@@ -34,7 +34,7 @@ public class NoticeRepositoryTests {
                     .user(user)
                     .notice_id((long) i)
                     .notice_content("this is notice " + i)
-                    .notice_status(Boolean.TRUE)
+                    .notice_status(1)
                     .build();
             notice.addNoticeReason(Notice_Kinds.NONE);
             noticeRepository.save(notice);

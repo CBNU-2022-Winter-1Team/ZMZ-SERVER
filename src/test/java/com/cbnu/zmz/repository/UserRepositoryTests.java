@@ -17,7 +17,6 @@ public class UserRepositoryTests {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Test
@@ -27,7 +26,7 @@ public class UserRepositoryTests {
 
     @Test
     public void testInsertDummy(){
-        IntStream.rangeClosed(111, 120).forEach(i ->{
+        IntStream.rangeClosed(1, 110).forEach(i ->{
             User user = User.builder()
                     .user_id("test..." + i)
                     .user_name("name"+i)

@@ -10,6 +10,7 @@ import com.cbnu.zmz.repository.FriendRepository;
 import com.cbnu.zmz.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -81,6 +82,28 @@ public class ChatService {
 
         List<Chat> result = chatRepository.findChatListbyID(user, friend);
 
+        System.out.println(result);
+        result.forEach(item -> {
+            ChatDTO chatListDTO =new ChatDTO();
+            chatListDTO.setUser_id(item.getUser_id().getUser_id());
+            chatListDTO.setFriend_id(item.getFriend_id().getUser_id());
+            chatListDTO.setChat_send(item.getChat_send());
+            chatListDTO.setChat_read(item.getChat_read());
+            chatListDTO.setChat_content(item.getChat_content());
+            list.add(chatListDTO);
+        });
+
+
+        return list;
+    }
+
+    public List<ChatDTO> getChatWith(@AuthenticationPrincipal String user_id){
+        List<ChatDTO> list = new ArrayList<>();
+
+        User user = User.builder()
+                .user_id(user_id).build();
+
+        List<Chat> result = chatRepository.findChatWithID(user);
         System.out.println(result);
         result.forEach(item -> {
             ChatDTO chatListDTO =new ChatDTO();

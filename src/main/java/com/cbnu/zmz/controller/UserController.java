@@ -11,7 +11,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -103,11 +102,10 @@ public class UserController {
         log.info("============followProposal==============");
         log.info(userDTO);
         return new ResponseEntity<>(userService.followProposal(userDTO), HttpStatus.OK);
-
     }
 
     @GetMapping("/info")
-    public ResponseEntity<UserDTO> info(String user_id){
+    public ResponseEntity<UserDTO> info(@AuthenticationPrincipal String user_id){
         log.info("============userInfo==============");
         log.info(user_id);
         return new ResponseEntity<>(userService.info(user_id), HttpStatus.OK);

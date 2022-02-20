@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,8 +41,17 @@ public class ChatController {
 
     @GetMapping("list/{user_id}/{friend_id}")
     public  Object getChating(@PathVariable String user_id, @PathVariable String friend_id){
-        log.info("----------------chat/with-----------------------");
+        log.info("----------------chat/list-----------------------");
         List<ChatDTO> chatDTO = chatService.getChatting(user_id, friend_id);
+        return chatDTO;
+    }
+
+    @GetMapping("with")
+    public  Object chatWith(@AuthenticationPrincipal String user_id){
+        log.info("----------------chatWith-----------------------");
+
+        System.out.println("user_id : " + user_id);
+        List<ChatDTO> chatDTO = chatService.getChatWith(user_id);
         return chatDTO;
     }
 }

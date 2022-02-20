@@ -89,8 +89,33 @@ public class BoardServiceImpl implements BoardService{
 
         return boardDTO;
     }
-//
-//    BoardDTO modify(BoardDTO dto);
+
+    public StatusDTO modify(BoardDTO dto, String user_id){
+        Optional<Board> result = boardRepository.findBoardById(dto.getPost_id());
+        StatusDTO statusDTO = new StatusDTO();
+
+        statusDTO.setStatus(200);
+        BoardDTO boardDTO = entityToDTO(result.get());
+
+        boardDTO.setPost_title(dto.getPost_title());
+        boardDTO.setPost_content(dto.getPost_content());
+
+        Board board = dtoToEntity(boardDTO);
+        if(result.get().getUser_id().getUser_id().equals(user_id) ){
+            statusDTO.setSuccess(true);
+            statusDTO.setMessage("게시판 등록 성공");
+            boardRepository.save(board);
+        }
+        else{
+            statusDTO.setSuccess(false);
+            statusDTO.setMessage("해당 게시물에 대한 권한이 없습니다.");
+        }
+
+
+
+
+    return statusDTO;
+    }
 //
 //    StatusDTO delete(Long post_id);
 //

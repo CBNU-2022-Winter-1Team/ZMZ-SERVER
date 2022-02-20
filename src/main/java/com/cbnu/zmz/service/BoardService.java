@@ -17,7 +17,7 @@ public interface BoardService {
 
     BoardDTO read(Long post_id);
 
-//    BoardDTO modify(BoardDTO dto);
+    StatusDTO modify(BoardDTO dto, String user_id);
 //
 //    StatusDTO delete(Long post_id);
 //

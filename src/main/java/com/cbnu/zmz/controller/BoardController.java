@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,12 +52,12 @@ public class BoardController {
         return new ResponseEntity<>(boardService.read(post_id), HttpStatus.OK);
     }
 
-//    @PostMapping("/modify")
-//    public ResponseEntity<BoardDTO> modify(@RequestBody BoardDTO boardDTO) {
-//        log.info("----------modify----------");
-//
-//        return new ResponseEntity<>(boardService.modify(boardDTO), HttpStatus.OK);
-//    }
+    @PostMapping("/modify")
+    public ResponseEntity<StatusDTO> modify(@AuthenticationPrincipal String user_id, @RequestBody BoardDTO boardDTO) {
+        log.info("----------modify----------");
+
+        return new ResponseEntity<>(boardService.modify(boardDTO, user_id), HttpStatus.OK);
+    }
 //
 //    @PostMapping("/delete")
 //    public ResponseEntity<StatusDTO> delete(Long post_id) {

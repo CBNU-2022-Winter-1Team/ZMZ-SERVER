@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @GetMapping("/follower")
-    public ResponseEntity<List<UserDTO>> follower(String user_id){
+    public ResponseEntity<List<UserDTO>> follower(@AuthenticationPrincipal String user_id){
         log.info("============follower==============");
         log.info(user_id);
 
@@ -83,7 +83,7 @@ public class UserController {
     }
 
     @GetMapping("/following")
-    public ResponseEntity<List<UserDTO>> following(String user_id){
+    public ResponseEntity<List<UserDTO>> following(@AuthenticationPrincipal String user_id){
         log.info("============following==============");
         log.info(user_id);
 

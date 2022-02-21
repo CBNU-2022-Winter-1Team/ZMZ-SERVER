@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface NoticeRepository extends JpaRepository<Notice,Long>{
-    @Query("select n from Notice n where n.notice_id = :user_id")
+    @Query(value = "select * from Notice n where n.user_id = :user_id",nativeQuery = true)
     List<Notice> findByUserWithNotice(@Param("user_id") User user);
 }

@@ -20,4 +20,5 @@ public class NoticeDTO {
     private String notice_content;
     private Set<Notice_Kinds> noticeSet = new HashSet<>();
     private String sender_id;
+    private int friend_status;
 }

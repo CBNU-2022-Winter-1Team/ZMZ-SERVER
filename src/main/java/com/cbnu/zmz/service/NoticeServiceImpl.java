@@ -1,8 +1,10 @@
 package com.cbnu.zmz.service;
 
 import com.cbnu.zmz.dto.NoticeDTO;
+import com.cbnu.zmz.entity.Friend;
 import com.cbnu.zmz.entity.Notice;
 import com.cbnu.zmz.entity.User;
+import com.cbnu.zmz.repository.FriendRepository;
 import com.cbnu.zmz.repository.NoticeRepository;
 import com.cbnu.zmz.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class NoticeServiceImpl implements NoticeService{
     private final NoticeRepository noticeRepository;
     private final UserRepository userRepository;
+    private final FriendRepository friendRepository;
 
     @Override
     public List<NoticeDTO>callNoticeList(String user_id){
@@ -30,8 +33,10 @@ public class NoticeServiceImpl implements NoticeService{
         List<NoticeDTO> noticeList = new ArrayList<>();
         result.forEach(
                 r-> {
+                    Optional<Friend> friend = friendRepository.friendIsPresent(r.getSender(), r.getUser());
                     NoticeDTO noticeDTO = new NoticeDTO();
                     noticeDTO = entityToDTO(r);
+                    noticeDTO.setFriend_status(friend.get().getFriend_num().getFriend_num());
                     noticeList.add(noticeDTO);
                 }
         );

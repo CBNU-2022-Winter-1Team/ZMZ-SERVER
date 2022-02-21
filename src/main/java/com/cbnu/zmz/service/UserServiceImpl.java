@@ -120,10 +120,9 @@ public class UserServiceImpl implements UserService{
         FriendStatus friendStatus = result2.get();
 
         int test = -1;
-
         test = friendRepository.updateFriend_status(user, friend, friendStatus);
 
-        log.info("AcceptTest==========="+test);
+        log.info(test);
 
         StatusDTO statusDTO = new StatusDTO();
 

@@ -39,6 +39,7 @@ public class BoardServiceImpl implements BoardService{
 //
 //        return boardDTO;
 //    }
+    @Override
     public List<BoardDTO> list(String user_id) {
         List<BoardDTO> list = new ArrayList<>();
 

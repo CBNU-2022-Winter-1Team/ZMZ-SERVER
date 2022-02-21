@@ -31,7 +31,7 @@ public class BoardController {
 
     @GetMapping("/list")
     public List<BoardDTO> list(String user_id) {
-        log.info("----------list----------");
+        log.info("-----------list-----------");
 
         List<BoardDTO> boardDTO = boardService.list(user_id);
 

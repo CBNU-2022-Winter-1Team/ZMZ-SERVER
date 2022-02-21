@@ -65,20 +65,20 @@ public class BoardController {
 
         return new ResponseEntity<>(boardService.delete(post_id), HttpStatus.OK);
     }
-//
-//    @GetMapping("/bookList")
-//    public ResponseEntity<UserDTO> bookList(Long user_id) {
-//        log.info("----------bookList----------");
-//
-//        return new ResponseEntity<>(boardService.bookList(user_id), HttpStatus.OK);
-//    }
-//
-//    @PostMapping("/bookAdd")
-//    public ResponseEntity<StatusDTO> bookAdd(@RequestBody BoardDTO boardDTO) {
-//        log.info("----------bookAdd----------");
-//
-//        return new ResponseEntity<>(boardService.bookAdd(boardDTO), HttpStatus.OK);
-//    }
+
+    @GetMapping("/bookList")
+    public ResponseEntity<List<BoardDTO>> bookList(@AuthenticationPrincipal String user_id) {
+        log.info("----------bookList----------");
+
+        return new ResponseEntity<>(boardService.bookList(user_id), HttpStatus.OK);
+    }
+
+    @PostMapping("/bookAdd")
+    public ResponseEntity<StatusDTO> bookAdd(@AuthenticationPrincipal String user_id, @RequestBody BoardDTO boardDTO) {
+        log.info("----------bookAdd----------");
+
+        return new ResponseEntity<>(boardService.bookAdd(user_id, boardDTO), HttpStatus.OK);
+    }
 //
 //    @GetMapping("/commentList")
 //    public ResponseEntity<BoardDTO> commentList(Long user_id) {

@@ -4,8 +4,10 @@ import com.cbnu.zmz.dto.BoardDTO;
 import com.cbnu.zmz.dto.StatusDTO;
 import com.cbnu.zmz.dto.UserDTO;
 import com.cbnu.zmz.entity.Board;
+import com.cbnu.zmz.entity.Scrap;
 import com.cbnu.zmz.entity.User;
 import com.cbnu.zmz.repository.BoardRepository;
+import com.cbnu.zmz.repository.ScrapRepository;
 import com.cbnu.zmz.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,6 +28,7 @@ public class BoardServiceImpl implements BoardService{
 
     private final UserRepository userRepository;
 
+    private final ScrapRepository scrapRepository;
 
 //    @Override
 //    public BoardDTO list(String user_id) {
@@ -139,10 +142,51 @@ public class BoardServiceImpl implements BoardService{
         return statusDTO;
 
     };
-//
-//    UserDTO bookList(Long user_id);
-//
-//    StatusDTO bookAdd(BoardDTO boardDTO);
-//
+
+    public List<BoardDTO> bookList(String user_id){
+        Optional<User> result = userRepository.findById(user_id);
+
+        List <BoardDTO> boardDTOList = new ArrayList<>();
+        if(result.isPresent()){
+            User user = result.get();
+            List<Scrap> scrapList = scrapRepository.findByUserId(user);
+
+            scrapList.forEach(scrap -> {
+                BoardDTO boardDTO;
+                boardDTO = entityToDTO(boardRepository.findBoardById(scrap.getBoard().getPost_id()).get());
+                boardDTOList.add(boardDTO);
+
+            });
+        }
+
+        return boardDTOList;
+    };
+
+    public StatusDTO bookAdd(String user_id, BoardDTO boardDTO){
+        StatusDTO statusDTO = new StatusDTO();
+        statusDTO.setStatus(200);
+
+        Optional<User> result1 = userRepository.findById(user_id);
+
+        Optional<Board> result2 = boardRepository.findBoardById(boardDTO.getPost_id());
+
+        if(result2.isPresent() && result1.isPresent()){
+            User user = result1.get();
+            Board board = result2.get();
+
+            Scrap scrap = Scrap.builder().user(user).board(board).build();
+
+            scrapRepository.save(scrap);
+            statusDTO.setSuccess(true);
+            statusDTO.setMessage("게시물 스크랩 성공");
+        }
+        else{
+            statusDTO.setSuccess(false);
+            statusDTO.setMessage("게시물 스크랩 실패");
+        }
+
+        return statusDTO;
+    };
+
 //    BoardDTO commentList(Long user_id);
 }

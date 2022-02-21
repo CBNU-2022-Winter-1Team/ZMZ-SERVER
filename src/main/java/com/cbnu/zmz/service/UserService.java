@@ -22,7 +22,7 @@ public interface UserService {
 
     StatusDTO followAccept(FriendDTO friendDTO) throws Exception;
 
-    StatusDTO followProposal(UserDTO  userDTO);
+    StatusDTO followProposal(String user_id, UserDTO  userDTO);
 
     UserDTO info(String user_id);
 

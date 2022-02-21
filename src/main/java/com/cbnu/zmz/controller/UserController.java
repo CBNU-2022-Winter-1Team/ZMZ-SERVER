@@ -98,10 +98,10 @@ public class UserController {
     }
 
     @PostMapping("/followProposal")
-    public ResponseEntity<StatusDTO> followProposal(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<StatusDTO> followProposal(@AuthenticationPrincipal String user_id, @RequestBody UserDTO userDTO) {
         log.info("============followProposal==============");
         log.info(userDTO);
-        return new ResponseEntity<>(userService.followProposal(userDTO), HttpStatus.OK);
+        return new ResponseEntity<>(userService.followProposal(user_id, userDTO), HttpStatus.OK);
     }
 
     @GetMapping("/info")

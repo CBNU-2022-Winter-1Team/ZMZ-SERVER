@@ -3,11 +3,10 @@ package com.cbnu.zmz.service;
 import com.cbnu.zmz.dto.FriendDTO;
 import com.cbnu.zmz.dto.StatusDTO;
 import com.cbnu.zmz.dto.UserDTO;
-import com.cbnu.zmz.entity.Friend;
-import com.cbnu.zmz.entity.FriendStatus;
-import com.cbnu.zmz.entity.User;
+import com.cbnu.zmz.entity.*;
 import com.cbnu.zmz.repository.FriendRepository;
 import com.cbnu.zmz.repository.FriendStatusRepository;
+import com.cbnu.zmz.repository.NoticeRepository;
 import com.cbnu.zmz.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +27,8 @@ public class UserServiceImpl implements UserService{
     private final FriendRepository friendRepository;
 
     private final FriendStatusRepository friendStatusRepository;
+
+    private final NoticeRepository noticeRepository;
 
     @Override
     public StatusDTO register(UserDTO userDTO, PasswordEncoder passwordEncoder){
@@ -135,10 +136,10 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public StatusDTO followProposal(UserDTO  userDTO){
+    public StatusDTO followProposal(String user_id, UserDTO  userDTO){
         StatusDTO statusDTO = new StatusDTO();
-        User user_id = User.builder()
-                .user_id(userDTO.getUser_id()).build();
+
+        User user = userRepository.findById(user_id).get();
 
         User friend_id = User.builder()
                 .user_id(userDTO.getFriend_id()).build();
@@ -147,11 +148,11 @@ public class UserServiceImpl implements UserService{
                         .friend_num(3).build();
 
         Friend friend = Friend.builder()
-                        .user_id(user_id)
+                        .user_id(user)
                         .friend_id(friend_id)
                         .friend_num(friendStatus).build();
 
-        Optional<Friend> result = friendRepository.friendIsPresent(user_id, friend_id);
+        Optional<Friend> result = friendRepository.friendIsPresent(user, friend_id);
         statusDTO.setSuccess(true);
         statusDTO.setStatus(200);
 
@@ -159,8 +160,15 @@ public class UserServiceImpl implements UserService{
             statusDTO.setMessage("isPresent");
         }
         else{
+            Notice notice = Notice.builder().user(friend_id).notice_status(1).notice_content(user.getUser_name()).build();
+
+            notice.addNoticeReason(Notice_Kinds.FOLLOW_NOTICE);
+
+            noticeRepository.save(notice);
+
             statusDTO.setMessage("success");
             friendRepository.save(friend);
+
         }
 
         return statusDTO;

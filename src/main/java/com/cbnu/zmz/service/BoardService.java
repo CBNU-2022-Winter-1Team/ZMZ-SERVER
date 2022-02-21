@@ -20,11 +20,11 @@ public interface BoardService {
     StatusDTO modify(BoardDTO dto, String user_id);
 
     StatusDTO delete(Long post_id);
-//
-//    UserDTO bookList(Long user_id);
-//
-//    StatusDTO bookAdd(BoardDTO boardDTO);
-//
+
+    List<BoardDTO> bookList(String user_id);
+
+    StatusDTO bookAdd(String user_id, BoardDTO boardDTO);
+
 //    BoardDTO commentList(Long user_id);
 
     default Board dtoToEntity(BoardDTO boardDTO) {

@@ -4,9 +4,11 @@ import com.cbnu.zmz.dto.BoardDTO;
 import com.cbnu.zmz.dto.StatusDTO;
 import com.cbnu.zmz.dto.UserDTO;
 import com.cbnu.zmz.entity.Board;
+import com.cbnu.zmz.entity.Comment;
 import com.cbnu.zmz.entity.Scrap;
 import com.cbnu.zmz.entity.User;
 import com.cbnu.zmz.repository.BoardRepository;
+import com.cbnu.zmz.repository.CommentRepository;
 import com.cbnu.zmz.repository.ScrapRepository;
 import com.cbnu.zmz.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,8 @@ public class BoardServiceImpl implements BoardService{
     private final UserRepository userRepository;
 
     private final ScrapRepository scrapRepository;
+
+    private final CommentRepository commentRepository;
 
 //    @Override
 //    public BoardDTO list(String user_id) {
@@ -193,5 +197,67 @@ public class BoardServiceImpl implements BoardService{
         return statusDTO;
     };
 
+    public StatusDTO commentAdd(String user_id, BoardDTO boardDTO){
+
+
+        StatusDTO statusDTO = new StatusDTO();
+        statusDTO.setStatus(200);
+        statusDTO.setSuccess(true);
+        statusDTO.setMessage("댓글 작성 성공");
+
+        User user = userRepository.findById(user_id).get();
+
+        Board board = boardRepository.findBoardById(boardDTO.getPost_id()).get();
+
+        if(boardDTO.getIsAnnonymouse() == null){
+            boardDTO.setIsAnnonymouse(false);
+        }
+
+        if(boardDTO.getAnonymouse_name() == null){
+            boardDTO.setAnonymouse_name("");
+        }
+
+        Comment comment = Comment.builder()
+                .comment_date(LocalDateTime.now())
+                .comment_text(boardDTO.getComment_text())
+                .user(user)
+                .board(board)
+                .isAnonymouse(boardDTO.getIsAnnonymouse())
+                .anonymouseName(boardDTO.getAnonymouse_name())
+                .build();
+
+        commentRepository.save(comment);
+
+        return statusDTO;
+    }
+
+    public List<BoardDTO> commentList(BoardDTO boardDTO){
+
+        List<BoardDTO> result = new ArrayList<>();
+
+        Board board = boardRepository.findBoardById(boardDTO.getPost_id()).get();
+
+        List<Comment> comment = commentRepository.findByPostId(board);
+
+        comment.forEach((r)->{
+            BoardDTO tempBoard = new BoardDTO();
+            tempBoard = BoardDTO.builder()
+                    .user_id(r.getUser().getUser_id())
+                    .user_name(r.getUser().getUser_name())
+                    .isAnnonymouse(r.isAnonymouse())
+                    .anonymouse_name(r.getAnonymouseName())
+                    .comment_date(r.getComment_date())
+                    .comment_id(r.getComment_id())
+                    .comment_text(r.getComment_text())
+                    .build();
+
+            result.add(tempBoard);
+        });
+
+        log.info(comment);
+
+        return result;
+
+    }
 //    BoardDTO commentList(Long user_id);
 }

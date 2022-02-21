@@ -79,6 +79,20 @@ public class BoardController {
 
         return new ResponseEntity<>(boardService.bookAdd(user_id, boardDTO), HttpStatus.OK);
     }
+
+    @PostMapping("/comment/add")
+    public ResponseEntity<StatusDTO>commentAdd(@AuthenticationPrincipal String user_id, @RequestBody BoardDTO boardDTO){
+        log.info("====================commentAdd===============");
+
+        return new ResponseEntity<>(boardService.commentAdd(user_id, boardDTO), HttpStatus.OK);
+    }
+
+    @GetMapping("/comment/list")
+    public ResponseEntity<List<BoardDTO>>commentList(@AuthenticationPrincipal String user_id, @RequestBody BoardDTO boardDTO){
+        log.info("====================commentList===============");
+
+        return new ResponseEntity<>(boardService.commentList(boardDTO), HttpStatus.OK);
+    }
 //
 //    @GetMapping("/commentList")
 //    public ResponseEntity<BoardDTO> commentList(Long user_id) {

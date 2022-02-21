@@ -5,6 +5,8 @@ import com.cbnu.zmz.dto.StatusDTO;
 import com.cbnu.zmz.dto.UserDTO;
 import com.cbnu.zmz.entity.Board;
 import com.cbnu.zmz.entity.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -25,6 +27,9 @@ public interface BoardService {
 
     StatusDTO bookAdd(String user_id, BoardDTO boardDTO);
 
+    StatusDTO commentAdd(String user_id, BoardDTO boardDTO);
+
+    List<BoardDTO> commentList(BoardDTO boardDTO);
 //    BoardDTO commentList(Long user_id);
 
     default Board dtoToEntity(BoardDTO boardDTO) {

@@ -3,9 +3,12 @@ package com.cbnu.zmz.repository;
 import com.cbnu.zmz.entity.Board;
 import com.cbnu.zmz.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,5 +27,12 @@ public interface BoardRepository extends JpaRepository<Board, String> {
 
     @Query("select b from Board b where b.post_id = ?1")
     Optional<Board> findBoardById(Long post_id);
+
+
+//    @Transactional
+//    @Modifying
+//    @Query("delete from Board b where b.post_id = ?1")
+//    void deleteBoardById(Long post_id);
+
 
 }

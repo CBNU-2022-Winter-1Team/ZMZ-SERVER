@@ -11,7 +11,7 @@ import java.util.List;
 public interface BoardService {
     List<BoardDTO> list(String user_id);
 
-    StatusDTO register(BoardDTO boardDTO);
+    StatusDTO register(String user_id, BoardDTO boardDTO);
 
     //PageResultDTO<BoardDTO, Board> getList(PageRequestDTO requestDTO);
 

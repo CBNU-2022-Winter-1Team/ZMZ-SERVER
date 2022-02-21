@@ -39,10 +39,10 @@ public class BoardController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<StatusDTO> register(@RequestBody BoardDTO boardDTO) {
+    public ResponseEntity<StatusDTO> register(@AuthenticationPrincipal String user_id, @RequestBody BoardDTO boardDTO) {
         log.info("----------register----------");
 
-        return new ResponseEntity<>(boardService.register(boardDTO), HttpStatus.OK);
+        return new ResponseEntity<>(boardService.register(user_id, boardDTO), HttpStatus.OK);
     }
 
     @GetMapping("/read")

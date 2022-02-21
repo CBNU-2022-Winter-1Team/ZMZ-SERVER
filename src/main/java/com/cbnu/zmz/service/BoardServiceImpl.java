@@ -67,13 +67,18 @@ public class BoardServiceImpl implements BoardService{
     }
 
 
-    public StatusDTO register(BoardDTO boardDTO) {
+    public StatusDTO register(String user_id, BoardDTO boardDTO) {
         StatusDTO statusDTO = new StatusDTO();
         statusDTO.setSuccess(true);
         statusDTO.setMessage("게시판 등록 성공");
         statusDTO.setStatus(200);
 
+        boardDTO.setUser_id(user_id);
         boardDTO.setPost_time(LocalDateTime.now());
+        boardDTO.setIs_secret(false);       //기능 추가 후 수정 필요
+        boardDTO.setPost_like(0L);
+        boardDTO.setPost_view(0L);
+
         Board board = dtoToEntity(boardDTO);
 
         boardRepository.save(board);

@@ -58,13 +58,13 @@ public class BoardController {
 
         return new ResponseEntity<>(boardService.modify(boardDTO, user_id), HttpStatus.OK);
     }
-//
-//    @PostMapping("/delete")
-//    public ResponseEntity<StatusDTO> delete(Long post_id) {
-//        log.info("----------delete----------");
-//
-//        return new ResponseEntity<>(boardService.delete(post_id), HttpStatus.OK);
-//    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<StatusDTO> delete(Long post_id) {
+        log.info("----------delete----------");
+
+        return new ResponseEntity<>(boardService.delete(post_id), HttpStatus.OK);
+    }
 //
 //    @GetMapping("/bookList")
 //    public ResponseEntity<UserDTO> bookList(Long user_id) {

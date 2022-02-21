@@ -129,11 +129,7 @@ public class UserServiceImpl implements UserService{
         statusDTO.setSuccess(true);
         statusDTO.setMessage("친구 수락");
         statusDTO.setStatus(200);
-//    {
-//        "user_id" : "test...1",
-//            "friend_id" : "test...2",
-//            "friend_num" : 2
-//    }
+
         return statusDTO;
     }
 

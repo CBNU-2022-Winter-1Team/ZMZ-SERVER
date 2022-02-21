@@ -9,6 +9,7 @@ import com.cbnu.zmz.repository.BoardRepository;
 import com.cbnu.zmz.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -94,13 +95,14 @@ public class BoardServiceImpl implements BoardService{
         Optional<Board> result = boardRepository.findBoardById(dto.getPost_id());
         StatusDTO statusDTO = new StatusDTO();
 
-        statusDTO.setStatus(200);
         BoardDTO boardDTO = entityToDTO(result.get());
 
         boardDTO.setPost_title(dto.getPost_title());
         boardDTO.setPost_content(dto.getPost_content());
 
         Board board = dtoToEntity(boardDTO);
+        statusDTO.setStatus(200);
+
         if(result.get().getUser_id().getUser_id().equals(user_id) ){
             statusDTO.setSuccess(true);
             statusDTO.setMessage("게시판 등록 성공");
@@ -116,8 +118,26 @@ public class BoardServiceImpl implements BoardService{
 
     return statusDTO;
     }
-//
-//    StatusDTO delete(Long post_id);
+
+    public StatusDTO delete(Long post_id){
+
+        Optional<Board> result = boardRepository.findBoardById(post_id);
+
+        StatusDTO statusDTO = new StatusDTO();
+        statusDTO.setStatus(200);
+        if(result.isPresent()){
+            Board board = result.get();
+            boardRepository.delete(board);
+            statusDTO.setSuccess(true);
+            statusDTO.setMessage("게시물 삭제 성공");
+        }
+        else{
+            statusDTO.setSuccess(false);
+            statusDTO.setMessage("게시물 삭제 실패");
+        }
+        return statusDTO;
+
+    };
 //
 //    UserDTO bookList(Long user_id);
 //

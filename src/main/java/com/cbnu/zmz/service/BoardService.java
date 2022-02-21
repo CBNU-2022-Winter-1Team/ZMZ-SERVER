@@ -18,8 +18,8 @@ public interface BoardService {
     BoardDTO read(Long post_id);
 
     StatusDTO modify(BoardDTO dto, String user_id);
-//
-//    StatusDTO delete(Long post_id);
+
+    StatusDTO delete(Long post_id);
 //
 //    UserDTO bookList(Long user_id);
 //

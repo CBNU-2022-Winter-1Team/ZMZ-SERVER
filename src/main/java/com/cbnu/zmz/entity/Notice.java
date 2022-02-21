@@ -22,6 +22,11 @@ public class Notice {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    User sender;
+
     @Column(length = 1, nullable = false)
     Integer notice_status;
     @Column(length = 100, nullable = true)

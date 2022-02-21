@@ -141,8 +141,7 @@ public class UserServiceImpl implements UserService{
 
         User user = userRepository.findById(user_id).get();
 
-        User friend_id = User.builder()
-                .user_id(userDTO.getFriend_id()).build();
+        User friend_id = userRepository.findById(userDTO.getUser_id()).get();
 
         FriendStatus friendStatus = FriendStatus.builder()
                         .friend_num(3).build();
@@ -160,14 +159,18 @@ public class UserServiceImpl implements UserService{
             statusDTO.setMessage("isPresent");
         }
         else{
-            Notice notice = Notice.builder().user(friend_id).notice_status(1).notice_content(user.getUser_name()).build();
+            Notice notice = Notice.builder()
+                    .user(friend_id)
+                    .sender(user)
+                    .notice_status(1)
+                    .build();
 
             notice.addNoticeReason(Notice_Kinds.FOLLOW_NOTICE);
 
+            friendRepository.save(friend);
             noticeRepository.save(notice);
 
             statusDTO.setMessage("success");
-            friendRepository.save(friend);
 
         }
 

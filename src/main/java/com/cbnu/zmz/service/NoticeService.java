@@ -26,6 +26,7 @@ public interface NoticeService {
                 .notice_status(notice.getNotice_status())
                 .notice_content(notice.getNotice_content())
                 .noticeSet(notice.getNotice_reason())
+                .sender_id(notice.getSender().getUser_id())
                 .build();
         return noticeDTO;
     }

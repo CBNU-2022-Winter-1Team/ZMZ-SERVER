@@ -50,8 +50,7 @@ public class BoardServiceImpl implements BoardService{
     public List<BoardDTO> list(String user_id) {
         List<BoardDTO> list = new ArrayList<>();
 
-        User user = User.builder()
-                .user_id(user_id).build();
+        User user = userRepository.findById(user_id).get();
 
         log.info(user);
 
@@ -63,7 +62,7 @@ public class BoardServiceImpl implements BoardService{
             boardDTO.setPost_title(b.getPost_title());
             boardDTO.setPost_content(b.getPost_content());
             boardDTO.setPost_like(b.getPost_like());
-
+            boardDTO.setPost_id(b.getPost_id()); // 이거 없어서 추가했음
             list.add(boardDTO);
         });
 
@@ -92,16 +91,17 @@ public class BoardServiceImpl implements BoardService{
 
     //PageResultDTO<BoardDTO, Board> getList(PageRequestDTO requestDTO);
 
-    public BoardDTO read(Long post_id) {
-        Optional<Board> result = boardRepository.findBoardById(post_id);
+    public BoardDTO read(BoardDTO boardDTO) {
+        log.info(boardDTO);
+        Optional<Board> result = boardRepository.findBoardById(boardDTO.getPost_id());
 
         Board board = result.get();
+        log.info(board);
+        BoardDTO result1 = entityToDTO(board);
 
-        BoardDTO boardDTO = entityToDTO(board);
+        log.info(result1);
 
-        log.info(boardDTO);
-
-        return boardDTO;
+        return result1;
     }
 
     public StatusDTO modify(BoardDTO dto, String user_id){

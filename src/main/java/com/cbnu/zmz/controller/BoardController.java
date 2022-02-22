@@ -30,7 +30,7 @@ public class BoardController {
 //    }
 
     @GetMapping("/list")
-    public List<BoardDTO> list(String user_id) {
+    public List<BoardDTO> list(@AuthenticationPrincipal String user_id) {
         log.info("-----------list-----------");
 
         List<BoardDTO> boardDTO = boardService.list(user_id);
@@ -45,11 +45,11 @@ public class BoardController {
         return new ResponseEntity<>(boardService.register(user_id, boardDTO), HttpStatus.OK);
     }
 
-    @GetMapping("/read")
-    public ResponseEntity<BoardDTO> read(Long post_id) {
+    @PostMapping("/read")
+    public ResponseEntity<BoardDTO> read(@RequestBody BoardDTO boardDTO) {
         log.info("----------read----------");
 
-        return new ResponseEntity<>(boardService.read(post_id), HttpStatus.OK);
+        return new ResponseEntity<>(boardService.read(boardDTO), HttpStatus.OK);
     }
 
     @PostMapping("/modify")

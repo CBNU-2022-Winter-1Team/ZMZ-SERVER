@@ -21,4 +21,9 @@ public class ReportDTO {
     private Set<Report_Kinds> reportSet = new HashSet<>();
     private Long post_id;
     private LocalDateTime regDate;
+
+
+
+    private String report_title;
+    private String report_content;
 }

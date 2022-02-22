@@ -49,17 +49,23 @@ public class ChatService {
         return list;
     }
 
-    public StatusDTO insert(ChatDTO chatDTO) {
+    public StatusDTO insert(String user_id , ChatDTO chatDTO) {
+        log.info(chatDTO);
+        log.info(user_id);
+        log.info("===============================================================================");
         StatusDTO statusDTO = new StatusDTO();
-        User user_id = User.builder().user_id(chatDTO.getUser_id()).build();
-        User friend_id = User.builder().user_id(chatDTO.getFriend_id()).build();
+        User user = userRepository.findById(user_id).get();
+        User friend_id = userRepository.findById(chatDTO.getFriend_id()).get();
+
+        log.info(chatDTO);
+        log.info(user);
 
         Chat chat = Chat.builder()
                         .chat_content(chatDTO.getChat_content())
                         .friend_id(friend_id)
                 .chat_read(0)
                         .chat_send(LocalDateTime.now())
-                        .user_id(user_id).build();
+                        .user_id(user).build();
         chatRepository.save(chat);
 
         statusDTO.setSuccess(true);

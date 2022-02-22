@@ -19,6 +19,9 @@ public interface ReportService {
                 .report_period(reportDTO.getReport_period())
                 .report_reason(reportDTO.getReportSet())
                 .regDate(reportDTO.getRegDate())
+                .post_id(reportDTO.getPost_id())
+                .report_title(reportDTO.getReport_title())
+                .report_content(reportDTO.getReport_content())
                 .build();
         return report;
     }
@@ -30,6 +33,9 @@ public interface ReportService {
                 .report_period(report.getReport_period())
                 .reportSet(report.getReport_reason())
                 .regDate(report.getRegDate())
+                .post_id(report.getPost_id())
+                .report_title(report.getReport_title())
+                .report_content(report.getReport_content())
                 .build();
         return reportDTO;
     }

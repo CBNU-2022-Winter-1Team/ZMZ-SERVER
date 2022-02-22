@@ -37,4 +37,13 @@ public class Report{
     public void addReportRole(Report_Kinds report_kinds){
         report_reason.add(report_kinds);
     }
+
+
+
+
+    @Column(length = 100, nullable = true)
+    String report_title;
+
+    @Column(length = 500, nullable = true)
+    String report_content;
 }

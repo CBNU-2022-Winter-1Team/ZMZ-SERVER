@@ -37,7 +37,11 @@ public class BoardDTO {
 
     private LocalDateTime comment_date;
 
-    private LocalDateTime comment_update;
+    private Boolean isAnnonymouse;
 
-    private Long comment_id2;
+    private int commentCnt;
+
+    private String user_name;
+
+    private String anonymouse_name;
 }

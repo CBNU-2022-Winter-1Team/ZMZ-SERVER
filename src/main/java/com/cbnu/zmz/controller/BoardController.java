@@ -39,10 +39,10 @@ public class BoardController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<StatusDTO> register(@RequestBody BoardDTO boardDTO) {
+    public ResponseEntity<StatusDTO> register(@AuthenticationPrincipal String user_id, @RequestBody BoardDTO boardDTO) {
         log.info("----------register----------");
 
-        return new ResponseEntity<>(boardService.register(boardDTO), HttpStatus.OK);
+        return new ResponseEntity<>(boardService.register(user_id, boardDTO), HttpStatus.OK);
     }
 
     @GetMapping("/read")
@@ -58,27 +58,41 @@ public class BoardController {
 
         return new ResponseEntity<>(boardService.modify(boardDTO, user_id), HttpStatus.OK);
     }
-//
-//    @PostMapping("/delete")
-//    public ResponseEntity<StatusDTO> delete(Long post_id) {
-//        log.info("----------delete----------");
-//
-//        return new ResponseEntity<>(boardService.delete(post_id), HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/bookList")
-//    public ResponseEntity<UserDTO> bookList(Long user_id) {
-//        log.info("----------bookList----------");
-//
-//        return new ResponseEntity<>(boardService.bookList(user_id), HttpStatus.OK);
-//    }
-//
-//    @PostMapping("/bookAdd")
-//    public ResponseEntity<StatusDTO> bookAdd(@RequestBody BoardDTO boardDTO) {
-//        log.info("----------bookAdd----------");
-//
-//        return new ResponseEntity<>(boardService.bookAdd(boardDTO), HttpStatus.OK);
-//    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<StatusDTO> delete(Long post_id) {
+        log.info("----------delete----------");
+
+        return new ResponseEntity<>(boardService.delete(post_id), HttpStatus.OK);
+    }
+
+    @GetMapping("/bookList")
+    public ResponseEntity<List<BoardDTO>> bookList(@AuthenticationPrincipal String user_id) {
+        log.info("----------bookList----------");
+
+        return new ResponseEntity<>(boardService.bookList(user_id), HttpStatus.OK);
+    }
+
+    @PostMapping("/bookAdd")
+    public ResponseEntity<StatusDTO> bookAdd(@AuthenticationPrincipal String user_id, @RequestBody BoardDTO boardDTO) {
+        log.info("----------bookAdd----------");
+
+        return new ResponseEntity<>(boardService.bookAdd(user_id, boardDTO), HttpStatus.OK);
+    }
+
+    @PostMapping("/comment/add")
+    public ResponseEntity<StatusDTO>commentAdd(@AuthenticationPrincipal String user_id, @RequestBody BoardDTO boardDTO){
+        log.info("====================commentAdd===============");
+
+        return new ResponseEntity<>(boardService.commentAdd(user_id, boardDTO), HttpStatus.OK);
+    }
+
+    @GetMapping("/comment/list")
+    public ResponseEntity<List<BoardDTO>>commentList(@AuthenticationPrincipal String user_id, @RequestBody BoardDTO boardDTO){
+        log.info("====================commentList===============");
+
+        return new ResponseEntity<>(boardService.commentList(boardDTO), HttpStatus.OK);
+    }
 //
 //    @GetMapping("/commentList")
 //    public ResponseEntity<BoardDTO> commentList(Long user_id) {

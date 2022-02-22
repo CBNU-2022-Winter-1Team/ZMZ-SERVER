@@ -1,6 +1,7 @@
 package com.cbnu.zmz.dto;
 
 import com.cbnu.zmz.entity.UserAuthority;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class UserDTO {
 
     private String user_addr;
 
+    @JsonFormat(pattern = "yyyy.MM.dd")
     private Date user_birth;
 
     private String user_mail;

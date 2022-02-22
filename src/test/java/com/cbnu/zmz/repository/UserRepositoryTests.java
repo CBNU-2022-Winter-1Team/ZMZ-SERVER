@@ -43,7 +43,7 @@ public class UserRepositoryTests {
         //81- 90까지는 USER,MANAGER
         //91- 100까지는 USER,MANAGER,ADMIN
 
-        IntStream.rangeClosed(1,100).forEach(i -> {
+        IntStream.rangeClosed(2,100).forEach(i -> {
             User user = User.builder()
                     .user_id("test..." + i)
                     .user_name("name"+i)

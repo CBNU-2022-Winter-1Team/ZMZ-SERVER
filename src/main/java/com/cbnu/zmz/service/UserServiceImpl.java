@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService{
             Notice notice = Notice.builder()
                     .user(friend_id)
                     .sender(user)
-                    .notice_status(1)
+                    .notice_status(3)
                     .build();
 
             notice.addNoticeReason(Notice_Kinds.FOLLOW_NOTICE);

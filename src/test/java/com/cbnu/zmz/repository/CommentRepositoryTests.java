@@ -29,7 +29,6 @@ public class CommentRepositoryTests {
                     .comment_id((long)i)
                     .comment_text("text..." + i)
                     .comment_date(now())
-                    .comment_update(now())
                     .build();
             commentRepository.save(comment);
         });

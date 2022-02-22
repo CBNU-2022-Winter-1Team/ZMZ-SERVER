@@ -17,7 +17,7 @@ public interface BoardService {
 
     //PageResultDTO<BoardDTO, Board> getList(PageRequestDTO requestDTO);
 
-    BoardDTO read(Long post_id);
+    BoardDTO read(BoardDTO boardDTO);
 
     StatusDTO modify(BoardDTO dto, String user_id);
 

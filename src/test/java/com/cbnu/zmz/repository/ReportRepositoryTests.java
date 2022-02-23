@@ -1,5 +1,6 @@
 package com.cbnu.zmz.repository;
 
+import com.cbnu.zmz.dto.StatusDTO;
 import com.cbnu.zmz.entity.Report;
 import com.cbnu.zmz.entity.Report_Kinds;
 import com.cbnu.zmz.entity.User;
@@ -35,14 +36,17 @@ public class ReportRepositoryTests {
 
     @Test
     public void testInsertDummy() {
+
         Optional<User> result = userRepository.findById("test...1");
         User user = result.get();
 
-        IntStream.rangeClosed(1, 100).forEach((i -> {
+        IntStream.rangeClosed(1, 10).forEach((i -> {
             Report report = Report.builder()
                     .user(user)
                     .report_period((long) i)
                     .regDate(LocalDateTime.now())
+                    .report_content("테스트중")
+                    .report_title("tesring")
                     .build();
             report.addReportRole(Report_Kinds.ETC);
             reportRepository.save(report);

@@ -33,7 +33,7 @@ public class ChatController {
     }
 
     @PostMapping("insert")
-    public ResponseEntity<StatusDTO> chatInsert(@AuthenticationPrincipal String user_id , ChatDTO chatDTO){
+    public ResponseEntity<StatusDTO> chatInsert(@AuthenticationPrincipal String user_id ,@RequestBody ChatDTO chatDTO){
         log.info("----------------chat/insert-----------------------");
 
         return new ResponseEntity<StatusDTO>( chatService.insert(user_id , chatDTO), HttpStatus.OK);

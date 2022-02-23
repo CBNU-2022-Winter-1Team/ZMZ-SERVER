@@ -30,7 +30,7 @@ public class FriendRepositoryTests {
     public void testInsertDummy(){
 
         Optional<User> result1 = userRepository.findById("test...1");
-        Optional<User> result2 = userRepository.findById("test...2");
+        Optional<User> result2 = userRepository.findById("test...50");
         Optional<FriendStatus> result3 = friendStatusRepository.findById(1);
 
         User user_id = result1.get();
